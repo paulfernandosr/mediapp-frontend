@@ -1,0 +1,95 @@
+<form
+  class="example-container"
+  [formGroup]="form"
+  #frmSignos="ngForm"
+  (ngSubmit)="operar()"
+>
+  <div [hidden]="true">
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="ID" required formControlName="id" />
+    </mat-form-field>
+  </div>
+
+  <div class="flex">
+    <mat-form-field class="input-paciente">
+      <input
+        type="text"
+        placeholder="Paciente"
+        matInput
+        [matAutocomplete]="autoPaciente"
+        [formControl]="myControlPaciente"
+        formControlName="paciente"
+      />
+
+      <mat-autocomplete
+        #autoPaciente="matAutocomplete"
+        [displayWith]="mostrarPaciente"
+      >
+        <mat-option *ngFor="let p of pacientesFiltrados$ | async" [value]="p">
+          {{ p.nombres }} {{ p.apellidos }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <button
+      type="button"
+      mat-raised-button
+      color="primary"
+      (click)="abrirDialogo()"
+    >
+      Nuevo Paciente
+    </button>
+  </div>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Escoja una fecha</mat-label>
+    <input
+      matInput
+      [matDatepicker]="picker"
+      formControlName="fecha"
+      placeholder="Escoger una fecha dd/mm/yyyy"
+    />
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <input
+      matInput
+      placeholder="Temperatura"
+      required
+      formControlName="temperatura"
+    />
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Pulso" required formControlName="pulso" />
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <input
+      matInput
+      placeholder="Ritmo respiratorio"
+      required
+      formControlName="ritmoRespiratorio"
+    />
+  </mat-form-field>
+
+  <button
+    mat-raised-button
+    color="primary"
+    type="submit"
+    [disabled]="frmSignos.invalid"
+  >
+    <mat-icon>done</mat-icon>
+    <span>Aceptar</span>
+  </button>
+  <button
+    mat-raised-button
+    color="accent"
+    routerLink="/pages/signos-vitales"
+    type="button"
+  >
+    <mat-icon>close</mat-icon>
+    <span>Cancelar</span>
+  </button>
+</form>
